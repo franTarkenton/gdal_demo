@@ -49,6 +49,8 @@ def getAttributes(feature_class):
         print(layerDefinition.GetFieldDefn(i).GetName())
 
 def getOverlaps(feature_class, start_num=1, overlaps=[]):
+    # need to compare each feature with every other feature to identify 
+    # overlaps.
     total_features = feature_class.GetFeatureCount()
     print(f'completed: {start_num} of {total_features}')
     start_feature = feature_class.GetFeature(start_num)
