@@ -13,3 +13,8 @@ replace functionality that we now rely on proprietary tools to accomplish.
 1. [Using GDAL/OGR with python - Code Examples](docs/gdal_python_code_demo_5.md)
 1. [GDAL / OGR to detect overlaps](docs/gdal_python_overlaps_6.md)
 1. [conclusion](docs/summary_7.md)
+
+# Code
+
+1. [simple code demo's of gdal / python](simple.py)
+1. [demo of overlap detection](demo_overlap_detection.py)
