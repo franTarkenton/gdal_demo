@@ -6,7 +6,7 @@ replace functionality that we now rely on proprietary tools to accomplish.
 
 # Presentation Slides:
 
-1. [overview / introduction](docs/presentation_start_1)
+1. [overview / introduction](docs/presentation_start_1.md)
 1. [What is gdal](docs/gdal_overview_2.md)
 1. [Installing](docs/installing_3.md)
 1. [Using GDAL/OGR with python - High Level](docs/gdal_python_4.md)
