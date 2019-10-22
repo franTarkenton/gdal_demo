@@ -66,5 +66,5 @@ area = geom.GetArea()
 
 
 
-[next... reading features](gdal_python_overlaps_6.md)
+[next... detecting overlaps](gdal_python_overlaps_6.md)
 

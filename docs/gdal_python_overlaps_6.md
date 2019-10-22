@@ -19,6 +19,16 @@
 [Ran out of time, lets look at the code](../demo_overlap_detection.py)
 
 
+# Next Steps
+
+* speed! Problem could easily be processed in parallel
+  * [uvicorn](http://www.uvicorn.org/)
+* look into using shapely or fiona
+* bulk processing features instead of individually
+* [rtree module](http://toblerity.org/rtree/)
+* other?
+
+
 Other useful links:
 * [back to object hierarchy](gdal_python.md)
 * [GDAL Api Docs](https://gdal.org/python/index.html)
