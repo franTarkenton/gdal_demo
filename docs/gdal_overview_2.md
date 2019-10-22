@@ -5,16 +5,18 @@
 
 * opensource ETL Tool
 * Currently supports around 100 vector formats and 150 raster
-* GDAL = Geospatial Data Abstraction Library, Raster
-* OGR = OpenGIS Simple Features Reference Implementation??  Vector
-* GDAL 2.0 sees GDAL and OGR components integrated together, used to be separate
+* GDAL = Geospatial Data Abstraction Library, *Raster*
+* OGR = OpenGIS Simple Features Reference Implementation??  *Vector*
+* GDAL 2.0: GDAL and OGR components integrated together, previously separate
 * [more at gdal site](https://gdal.org/)
 
 # Using GDAL
 
-* GDAL is a library and a set of command line tools
-* ogr2ogr is one of the most common... Similar to FME but better
-* [other tools](https://gdal.org/programs/index.html)
+* GDAL composed of:
+  * **command line tools**
+  * **library**: with bindings to many languages
+* **ogr2ogr**: command line geospatial ETL... Similar to FME but better
+* [other tools in GDAL toolbox](https://gdal.org/programs/index.html)
 
 # library Bindings
 
