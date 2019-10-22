@@ -1,3 +1,13 @@
-# installing slide
+# Installing
 
-this is an installer.
+Not Easy!
+
+<IMG src="https://lh3.googleusercontent.com/K_zIfLBUsKZ4IzMgtKjE4d7TWxw5FSamT9L7f3qoSWkzJFxBvGDtV5GHg8ZPllnNhn9otiuPfLIIQ2pkR9TnqLNgRJRGSSPF8S64zhSiTqI7WzvMCKXAnVALAsqortg68ZGk3yvf3xgLGl_DqLE_FHurbocukLLFNdb10H3qVX9rv39-2FvoS7_EwZWSd2EJcQRqXPY2zPR0sYKIYy_ytec49mqcSKtHWPSA6VGT0hMLoXli96mxYmw6FAN15cWgQo5bS7YtdUuBHnO2ttMDtd_ad7jiPHgFaTfYMZBJaRHYypkc1b9zpn_AdrIxTW_TOWkJgbCiJvtYZeoqWKcEbxry4ZZ_-GPPyDfIGJ-HYmwFRzvZLmqdSms4qTYsDtQ7nKWBARvwc39HKzRaKYbbuW8sYLEA5qvpFiu5WNh1eTRk1r9p3E22_u7OBOR9CJXkAAb3zbeyn7NyhXVbHhvX4uJT8cXivQ5bJK29UeNXiWMWyu1F9Ude0O-rHsNwWtcqzp2rHZnEJrDud79Bh-fC9pSB_M9TLNWPR9mKI0p40k_20hdUTgDAtbTnzH6jAAwcih9fqE627iARw5rKVlUFyfktPTnZ65z5bxYkDjXSJ3seKtkYGyfFri_LdFA6lC_hR1_-DaQT-0y8FzCBX-VGejE-_m0iGeCs8EHKyqc1xuaTTw4kYcI-7TWa=w1172-h879-no" width=500>
+
+Using Windows Subsystem 4 Linux (WSL):
+
+```
+sudo apt-get install gdal-bin
+sudo apt-get install libgdal-dev
+sudo apt-get install python3-gdal
+```
