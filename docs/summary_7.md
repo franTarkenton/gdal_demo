@@ -13,7 +13,7 @@
 * [spatial predicates](https://docs.safe.com/fme/html/FME_Desktop_Documentation/FME_Transformers/Transformers/spatialrelations.htm)
 * [shapely](https://shapely.readthedocs.io/en/latest/)
 * [fiona](https://pypi.org/project/Fiona/)
-* [geomtry opertions with ogr](https://pcjericks.github.io/py-gdalogr-cookbook/geometry.html)
+* [geometry opertions with ogr](https://pcjericks.github.io/py-gdalogr-cookbook/geometry.html)
 * [geopandas](http://geopandas.org/)
 * [My OGR Presentation](https://prezi.com/cxtxz6qxdr14/ogr/)
 

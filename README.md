@@ -12,7 +12,7 @@ replace functionality that we now rely on proprietary tools to accomplish.
 1. [Using GDAL/OGR with python - High Level](docs/gdal_python_4.md)
 1. [Using GDAL/OGR with python - Code Examples](docs/gdal_python_code_demo_5.md)
 1. [GDAL / OGR to detect overlaps](docs/gdal_python_overlaps_6.md)
-1. [conclusion](docs/summary_7.md)
+1. [Conclusion](docs/summary_7.md)
 
 # Code
 
