@@ -1,0 +1,11 @@
+# Presentation Goals
+
+<IMG src="https://lh3.googleusercontent.com/CUp6-ywEl4yaJ4LTd4i07prAzPow8bii879jian0KIQ6jVsuTvtHhpt4Vu4q04YpJ94fXzIrZS29AAlsBmAGBMQ24szSyctu4urRTvyQsbQQ165eDltwmplN-MatpGesvRcrX4TmW44A-OrdNfua7G6ttiqjA5zD6mEfRvWotFjoqICv73rweLKVecLGDCcMdsFUsl_hFvkK7MBd22SDESEHP1eW_wMrjTLw9oBuNuKcsFYLtpxkSQOAGZQTg85Vj4vKWI6lhOxCcP3ibxssbAUCIHUofZEI4g5kPGvk7coAqSyRU5qQ-fxuK22PtzPT1OXCbaPcHxA9h8c3kDJQQaxPILzBi05MXpAhNn7zzbO_15tIraq6cFTsTPXvE6XOIRorSWVG7v49TTF5vIe8eTkXjATIJf0UikyHgNT5fvrx9eYe9im1cye-H9eQbn1ccRLyUhX-ofxBd__8UTtmfbsKNtNlKedo4atMcoL4gZCy15Ey7ynCfOQXAW0s1rix70SPDDEDDWI2eotW2nFR4xem6o6TXhKlN2bBWuangvHkPk1mYLLSTWLYUh2iqIkI_B3Aze1A-NKyW-Zi735I_0-KvsKvQ79kdbdrcvo0lJ9yZKWp5iGbLD2COaPUYULzcI9xs3SUb-FKay2-NzmTv-x9xAlDoqKreZkCk4jvQl4ciWiTD8APdGevDUSYWpTJRNTzNuu-BQeYqm9KpqW7RQmCpHmhdgkn8FDLQWmTM85fandf=w1172-h880-no" width=450>
+
+
+* Introduction to what GDAL / OGR is
+* High Level Overview of the GDAL / OGR Object Model
+* Simple Code Demos
+* More complex Demo of overlap detection
+
+[Overview of GDAL / OGR](gdal_overview_2.md)

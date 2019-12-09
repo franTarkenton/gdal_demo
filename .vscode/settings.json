@@ -1,0 +1,11 @@
+{
+    "python.pythonPath": "/mnt/c/kevin/proj/gdal/ve/cx_wsl_ve/bin/python",
+    "autoDocstring.docstringFormat": "sphinx", 
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "python.linting.prospectorEnabled": true,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black"
+}
