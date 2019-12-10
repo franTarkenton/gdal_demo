@@ -1,42 +1,57 @@
-# attempt to create a datamigration script from BCGW to PG
+# Compile GDAL/OGR
 
-## Requirements
+## Background
 
 In order to be able to connect OGR to the bcgw you need to make sure
-that it has OCI (Oracle call interface) support.  Most binary installs
-of GDAL/OGR do not have OCI support, and thus require you to compile 
-the code yourself.
+that the version of gdal/ogr you are using supports OCI 
+(Oracle call interface).  Most binary installs do not.  This means in 
+many cases you are stuck with the requirement to compile gdal
+yourself.
 
-Compiling on windows used to be a HUGE pain in the arse.  Windows 10 
-saw the introduction of Windows subsystem for linux which makes 
-compiling opensource code much easier.  All instructions below require
-the use of Windows subsystem for linux.  If you do not already have
-this installed I recommend doing so immediately... 
+Compiling gdal on windows used to be a HUGE pain in the arse.  Windows 10 
+introduced the Windows subsystem for linux (WSL) which makes 
+compiling opensource code way easier.  The remainder of this document
+assumes you have WSL installed.  Most of it however will probably just work
+on osx.
 
-[Windows Subsystem For Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+## Requirements (assuming this stuff is set up)
+
+* [Installing Windows Subsystem For Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
 When it comes time to installing a distribution I recommend [ubuntu](https://www.microsoft.com/en-ca/p/ubuntu-1804-lts/9n9tngvndl3q?rtc=1&activetab=pivot:overviewtab)
 
-### Ubuntu packages
+Ubuntu is actually now creating special distribution that are designed to 
+work with WSL. [article](https://www.zdnet.com/article/canonical-makes-ubuntu-for-windows-subsystem-for-linux-a-priority/)
 
-install the following package
-zip, unzip, swig, gcc, make, sqlite3, build-essential, python-dev
+### Ubuntu / linux packages required
 
-`sudo apt-get install zip unzip swig gcc make sqlite3 build-essential  python-dev`
+* zip
+* unzip
+* swig
+* gcc
+* make
+* build-essential
+* python-dev
+
+**Installing:**
+
+```sudo apt-get install zip unzip swig gcc make sqlite3 build-essential  python-dev```
 
 ## Recommendations
 
-[Windows Terminal](https://github.com/microsoft/terminal) or 
-[Cmder](https://cmder.net/).  I'd also recommend installing using
-[chocolatey](https://chocolatey.org/)
+Not required but do a great job of masking the stench that is windows:
 
-## Installing
+* [Windows Terminal](https://github.com/microsoft/terminal) or 
+* [Cmder](https://cmder.net/).  I'd also recommend installing using
+* [chocolatey](https://chocolatey.org/)
 
-### Download / Get the Oracle Crap
+## Getting and Configuring Oracle's Crap
+
+### Download Links
 
 All the oracle stuff can be found at the [oracle download page](https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html)
 
-Download the following files:
+Proceed with downloading the following files:
 * [Basic Packages (ZIP)](https://download.oracle.com/otn_software/linux/instantclient/195000/instantclient-basic-linux.x64-19.5.0.0.0dbru.zip)
 * [SQL Plus Package (ZIP)](https://download.oracle.com/otn_software/linux/instantclient/195000/instantclient-sqlplus-linux.x64-19.5.0.0.0dbru.zip)
 * [SDK Package (ZIP)](https://download.oracle.com/otn_software/linux/instantclient/195000/instantclient-sdk-linux.x64-19.5.0.0.0dbru.zip)
@@ -46,37 +61,84 @@ Download the following files:
 ### Extract Zips
 
 * create /opt/oracle, and extract the oracle zips into that directory
-`cd /opt`
-`sudo mkdir oracle`
-`sudo unzip /location/to/your/download/instantclient-basic-linux.x64-19.5.0.0.0dbru.zip`
-`sudo unzip /location/to/your/download/instantclient-sqlplus-linux.x64-19.5.0.0.0dbru.zip`
-`sudo unzip /location/to/your/download/instantclient-sdk-linux.x64-19.5.0.0.0dbru.zip`
-
+```
+cd /opt
+sudo mkdir oracle
+sudo unzip /location/to/your/download/instantclient-basic-linux.x64-19.5.0.0.0dbru.zip
+sudo unzip /location/to/your/download/instantclient-sqlplus-linux.x64-19.5.0.0.0dbru.zip
+sudo unzip /location/to/your/download/instantclient-sdk-linux.x64-19.5.0.0.0dbru.zip
+```
 
 ### Compile OGR and Dependencies
 
-This repo contains a install_deps.sh script that was stolen from the pyrosal github
+This repo contains a [install_deps.sh](../../install_gdal_deps.sh) script that was stolen from the pyrosal github
 repo: https://github.com/johntruckenbrodt/pyroSAR/blob/master/pyroSAR/install/install_deps.sh
 
-I modified the script slightly:
-* bash shell path to work with ubuntu 
-* modified gdal so it can incorporates the oracle stuff to add OCI interface
+It has been modified slightly in the following ways:
+* bash shell path to work with ubuntu
+* modified gdal configure so it can incorporates the oracle stuff to add OCI interface
 * deleted cleanup so that if it fails we don't have to start from scratch.
 
-Now attempt the install (warning this takes about an hour to run)
-`sudo ./install_deps.sh`
+#### **Run the OGR/GDAL Compile** (warning this takes about an hour to run)
+```
+sudo ./install_deps.sh
+```
 
-Once complete you should have a local directory in your ~ (home) folder with gdal command 
-lines and any other utilities that are built by the dependencies.
+Once complete you should have a *local* directory in your ~ (home) folder with gdal utilities and a bunch of other stuff that you may find useful at a later date.
 
 ## Testing OGR
 
-use the following command to verify that you can dump data from oracle to some other
-format.  example below is for shapefile
+Use the following command to verify that you can dump data from oracle to some other
+format.  example below is for a pgdump file, you can test for any output format.
 
-ogr2ogr <srs> -f "ESRI Shapefile" \
-/favourite/path/test.shp \
-OCI:"<oracle user>/<oracle password>@(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = <hostname>)(PORT = <port number>)))(CONNECT_DATA = (SERVICE_NAME  =<sid name>))):<oracle schema>.<oracle table>"
+To get a list of supported formats:
+
+```
+cd ~/local
+./ogrinfo --formats
+```
+
+If the install worked you should see a line that says OCI
+
+```
+... OCI -vector- (rw+): Oracle Spatial ...
+```
+
+Test dump of BCGW table to PGDUMP format.
+```
+ogr2ogr -nln <output object name>  -lco GEOMETRY_NAME=geom -f "PGDUMP" <path to pgdump file> OCI:"<username>/<password>@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=<db host>)(PORT=<db port>)))(CONNECT_DATA=(SERVICE_NAME=<db service name>))):<oracle schema>.<oracle table to dump>"
+```
+
+Specific Options that needed to be set to get a valid PGDUMP file:
+
+* **-nln**: specifies the name of the object to be created in the postgres db. without this option will generate an invalid object name for the destination
+* **-lco**: specifies the output geometry name.  without this option generates a dump file with "" for the geometry column which makes the file invalid.
+
+## Finalize install
+
+### move the compiled binaries to  `/opt`
+
+```
+sudo mkdir /opt/gdal
+sudo cp -R ~/local/* /opt/gdal/.
+```
+
+### Modify your shell init
+
+Add the following lines to .bashrc
+```
+export GDAL_HOME=/opt/gdal
+export ORACLE_HOME=/opt/oracle/instantclient_19_5
+export LD_LIBRARY_PATH=$ORACLE_HOME:$GDAL_HOME/lib:$GDAL_HOME/include:$LD_LIBRARY_PATH
+export PATH=$ORACLE_HOME:$GDAL_HOME/bin:$PATH
+```
+
+and lastly open a new shell and verify that you have ogr installed:
+
+```
+ogrinfo --version
+```
+should be 3.0.1
 
 # Useful links:
 

@@ -6,6 +6,23 @@
         120
     ],
     "python.linting.prospectorEnabled": true,
+    "python.jediEnabled": false,
     "python.linting.enabled": true,
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "cSpell.words": [
+        "BCGW",
+        "Popen",
+        "fput",
+        "fstring",
+        "gdal",
+        "gzipped",
+        "makedsn",
+        "mdrt",
+        "mdxt",
+        "minio",
+        "miniowrapper",
+        "pgdump",
+        "pylint",
+        "rtype"
+    ]
 }

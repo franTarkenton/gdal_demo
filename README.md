@@ -7,6 +7,8 @@ scripts.
 
 # GDAL Presentation:
 
+## Slides
+
 The presentation is made up of the following slides/pages:
 
 1. [overview / introduction](docs/intro_gdal_pres/presentation_start_1.md)
@@ -17,8 +19,20 @@ The presentation is made up of the following slides/pages:
 1. [GDAL / OGR to detect overlaps](docs/intro_gdal_pres/gdal_python_overlaps_6.md)
 1. [Conclusion](docs/intro_gdal_pres/summary_7.md)
 
-# Code
+## Code
 
-1. [simple code demo's of gdal / python](simple.py)
-1. [demo of overlap detection](demo_overlap_detection.py)
-1. []
+1. [simple code demo's of gdal / python](src/simple.py)
+1. [demo of overlap detection](src/demo_overlap_detection.py)
+
+# BCGW OGR Extract
+
+Created a script that will iterate over all the objects in a schema and
+dump them them to S3 object storage.  In order to do this needed a gdal
+ogr install that had OCI (oracle call interface) included in the compile.
+
+Most of the existing binaries gdal / ogr do not include this feature. 
+Created the following document which goes over how to compile ogr from 
+source.  
+
+* [BCGW to PGDUMP Script](src/copyData.py)
+* [HOWTO: compile gdal / ogr with oracle support](docs/compile_gdal/compile_gdal.md)
