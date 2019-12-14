@@ -33,7 +33,11 @@ choco upgrade -all -y
 Once qgis is installed set up the following environment variables:
 
 set QGIS_HOME="C:\Program Files\QGIS 3.10"
-set PATH=%QGIS_HOME%\bin;%PATH%
+set PROJ_LIB=%QGIS_HOME%\share\proj
+set GDAL_DATA=%QGIS_HOME%\share\gdal
+set GDAL_DRIVER_PATH=%QGIS_HOME%\bin\gdalplugins
+set PATH=%PROJ_LIB%;%QGIS_HOME%\bin;%QGIS_HOME%\python;%QGIS_HOME%\apps\qgis\bin;%QGIS_HOME%\apps\Qt5\bin;PATH%
+
 
 # test installation
 

@@ -227,7 +227,7 @@ class Oracle2PostGIS:
         # be valid when it comes to loading to the database
         connParams = self.oraConfig.getUserNamePassword()
         commandTemplate = (
-            "ogr2ogr -nln {2} "
+            'ogr2ogr -nln {3} '
             + " -lco GEOMETRY_NAME=geom "
             + '-unsetFid --config SCHEMA NO --config '
             + f'EXTRACT_SCHEMA_FROM_LAYER_NAME NO -f "{outFormat}" '
@@ -248,7 +248,7 @@ class Oracle2PostGIS:
         for table in tables:
             LOGGER.debug(f"working on the table: {table}")
             dumpFile = os.path.join(self.out_path, f"{table}.pgdump")
-            ogrCmd = commandTemplate.format(dumpFile, table, table.lower())
+            ogrCmd = commandTemplate.format(dumpFile, table, schema.lower(), table.lower())
 
             zippedDumpFile = self.copyTableAndZip(ogrCmd, dumpFile)
             self.copy_s3(zippedDumpFile)
