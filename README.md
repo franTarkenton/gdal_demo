@@ -36,3 +36,4 @@ source.
 
 * [BCGW to PGDUMP Script](src/copyData.py)
 * [HOWTO: compile gdal / ogr with oracle support](docs/compile_gdal/compile_gdal.md)
+* [HOWTO: using qgis gdal](docs/qgis_gdal.md)
