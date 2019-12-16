@@ -149,6 +149,7 @@ should be 3.0.1
 * [bunch more references to build scripts:](https://gis.stackexchange.com/questions/317109/build-gdal-with-proj-version-6)
 * [specifics to oracle](http://bisoftdiary.com/osm_gdal_oci_linux/)
 * [configure oracle client](https://medium.com/@arunkundgol/how-to-setup-oracle-instant-client-on-windows-subsystem-for-linux-cccee61d5b0b)
+* [the great oracle's ideas on gdal/ogr](https://www.oracle.com/technetwork/database/enterprise-edition/gdal-howto-compile-windows-128267.txt)
 
 # outstanding / to look into
 
