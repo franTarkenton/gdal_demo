@@ -1,10 +1,9 @@
-
 # import the ogr module
 import osgeo.ogr as ogr
 
-dataPath = r'./data/BCTS_OPERATING_AREAS_SP.gdb'
+dataPath = r"./data/BCTS_OPERATING_AREAS_SP.gdb"
 # proprietary ESRI driver, read only, requires separate install
-#driver = ogr.GetDriverByName("FileGDB")
+# driver = ogr.GetDriverByName("FileGDB")
 # opensource driver, use this!
 driver = ogr.GetDriverByName("OpenFileGDB")
 
@@ -19,7 +18,7 @@ for layer_idx in range(ds.GetLayerCount()):
 print(f'layer names: {r",".join(layerNameList)}')
 
 # print columns names in LAYER
-layer_name = 'WHSE_FOREST_TENURE_BCTS_OPERATING_AREAS_SP'
+layer_name = "WHSE_FOREST_TENURE_BCTS_OPERATING_AREAS_SP"
 lyr = ds.GetLayerByName(layer_name)
 
 # FEATURE object: feat
@@ -29,7 +28,7 @@ for col_cnt in range(0, column_count):
     # FIELDDEFN object: fld_def
     fld_def = feat.GetFieldDefnRef(col_cnt)
     fld_name = fld_def.GetName()
-    print(f'fld {col_cnt} is {fld_name}')
+    print(f"fld {col_cnt} is {fld_name}")
 
 # iterate geometries, adding up the area.
 total_area = 0
@@ -39,6 +38,5 @@ for feat_cnt in range(1, lyr.GetFeatureCount() + 1):
     area = geom.GetArea()
     total_area += area
 
-print(f'total area of: {layer_name} in hecares is {total_area / 10000}')
-
+print(f"total area of: {layer_name} in hecares is {total_area / 10000}")
 

@@ -6,23 +6,34 @@
         120
     ],
     "python.linting.prospectorEnabled": true,
+    "python.linting.prospectorArgs": ["-s", "high"],
     "python.jediEnabled": false,
     "python.linting.enabled": true,
     "python.formatting.provider": "black",
     "cSpell.words": [
         "BCGW",
+        "BCTS",
+        "Defn",
+        "FGDB",
         "Popen",
+        "WHSE",
+        "csvs",
         "fput",
         "fstring",
         "gdal",
         "gzipped",
+        "howto",
         "makedsn",
         "mdrt",
         "mdxt",
         "minio",
         "miniowrapper",
+        "nopep",
+        "osgeo",
         "pgdump",
         "pylint",
+        "qgis",
         "rtype"
-    ]
+    ],
+    "files.trimTrailingWhitespace": true 
 }
