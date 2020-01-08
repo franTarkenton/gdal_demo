@@ -1,0 +1,25 @@
+doc-warnings: true
+strictness: high
+
+
+ignore-patterns:
+    - ^setup.py$
+    - ^\.*$
+
+pep8:
+    disable:
+        - N803
+        - N802
+        - N806
+        - N815
+        - N816
+
+pep257:
+    disable:
+        - D203
+        - D213
+        - D212
+        - D415
+        - D107
+        - D205
+        - D202

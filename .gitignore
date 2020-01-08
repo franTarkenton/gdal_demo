@@ -3,3 +3,4 @@ data/
 ve/
 .aws
 src/junk.py
+__pycache__/
