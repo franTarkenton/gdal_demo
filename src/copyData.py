@@ -40,6 +40,7 @@ import minio
 import gzip
 import logging
 import OracleData
+import cx_Oracle
 
 LOGGER = logging.getLogger(__name__)
 
@@ -56,7 +57,7 @@ class Oracle2CSV(OracleData.OraQuery):
         super().__init__(oraConfig)
         self.oraConn = None
 
-    def copyTables(self, schema=None, out_path=None):
+    def copyTables(self, schema=None, out_path=None, includeSpatial=False):
         """
         Copies tables from oracle to CSV.
         Csv files will have the same
@@ -73,6 +74,9 @@ class Oracle2CSV(OracleData.OraQuery):
             os.mkdir(out_path)
 
         tableList = self.getTables(schema)
+        if includeSpatial:
+            spatialTables = self.getTables(schema, spatialTables=True)
+            tableList.extend(spatialTables)
         LOGGER.debug(f"table list: {tableList}")
         for table in tableList:
             outTable = os.path.join(out_path, f"{table}.csv.gz")
@@ -80,7 +84,7 @@ class Oracle2CSV(OracleData.OraQuery):
                 # dump table
                 self.copyTable(schema, table, outTable)
 
-    def copyTable(self, schema, table, outTable):
+    def copyTable(self, schema, table, outTable, includeSpatial=False):
         """Copies the table from the specified schema to a CSV.
 
         :param schema: Name of the input schema
@@ -89,42 +93,48 @@ class Oracle2CSV(OracleData.OraQuery):
         :type table: str
         :param outTable: Path to the output csv file
         :type outTable: str
+        :param includeSpatial: a boolean used to indicate whether tables with
+                               spatial data should be exported as well.  Default
+                               is False resulting in these tables being skipped
         """
         if not self.oraConn:
             self.oraConn = self.oraConfig.getConnection()
 
-        # set up the cursor
+        # set up the cursorc
         cur = self.oraConn.cursor()
         LOGGER.debug(f"schema: {schema}  table: {table}")
         cur.execute(f"SELECT * FROM {schema}.{table}")
 
-        # set up output csv
-        # outCSVFh = open(outTable, 'w')
-        outCSVFh = gzip.open(outTable, "wt")
-        csvWriter = csv.writer(
-            outCSVFh, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_NONNUMERIC
-        )
-        LOGGER.info(f"writing data to {outTable}")
+        # only continue with the copy if either includeSpatial is set to
+        # True
+        if includeSpatial or not self.hasSpatialColumn(cur):
+            # set up output csv
+            # outCSVFh = open(outTable, 'w')
+            outCSVFh = gzip.open(outTable, "wt")
+            csvWriter = csv.writer(
+                outCSVFh, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_NONNUMERIC
+            )
+            LOGGER.info(f"writing data to {outTable}")
 
-        # write the csv header
-        header = [head[0] for head in cur.description]
-        LOGGER.info(f"header: {header}")
-        csvWriter.writerow(header)
+            # write the csv header
+            header = [head[0] for head in cur.description]
+            LOGGER.info(f"header: {header}")
+            csvWriter.writerow(header)
 
-        # write the csv
-        rowCnt = 0
-        for row in cur:
-            # remove padding from strings:
-            row = [elem.strip() if isinstance(elem, str) else elem for elem in row]
-            # LOGGER.debug(f"row: {row}")
-            csvWriter.writerow(row)
-            rowCnt += 1
-        cur.close()
-        outCSVFh.close()
-        LOGGER.debug(f"table: {table}, {rowCnt}")
-        if not rowCnt:
-            LOGGER.info(f"removing the empty table: {outTable}")
-            os.remove(outTable)
+            # write the csv
+            rowCnt = 0
+            for row in cur:
+                # remove padding from strings:
+                row = [elem.strip() if isinstance(elem, str) else elem for elem in row]
+                # LOGGER.debug(f"row: {row}")
+                csvWriter.writerow(row)
+                rowCnt += 1
+            cur.close()
+            outCSVFh.close()
+            LOGGER.debug(f"table: {table}, {rowCnt}")
+            if not rowCnt:
+                LOGGER.info(f"removing the empty table: {outTable}")
+                os.remove(outTable)
 
 
 class Oracle2PostGIS(OracleData.OraQuery):
@@ -288,6 +298,27 @@ class Oracle2PostGIS(OracleData.OraQuery):
             self.minio = MinioWrapper()
         # s3bucketname
         self.minio.copyFile(self.s3bucketname, path)
+
+class Oracle2FGDB(OracleData.OraQuery):
+
+    def __init__(self, oraConfig, out_path):
+        """[summary]
+
+        :param oraConfig: An oracle config object, provides access to various
+            oracle config variables
+        :type oraConfig: OraConfig
+        :param out_path: Directory where output dump files should be put
+        :type out_path: str, path
+        """
+        self.out_path = out_path
+        super().__init__(oraConfig)
+        self.oraConn = None
+
+        self.oraConfig = oraConfig
+        self.out_path = out_path
+
+        if not os.path.exists(out_path):
+            os.makedirs(out_path)
 
 
 class MinioWrapper:
