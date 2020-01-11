@@ -16,7 +16,7 @@
 * [geometry opertions with ogr](https://pcjericks.github.io/py-gdalogr-cookbook/geometry.html)
 * [geopandas](http://geopandas.org/)
 * [My OGR Presentation](https://prezi.com/cxtxz6qxdr14/ogr/)
-
+* [Python and GDAL config](https://glenbambrick.com/2017/03/10/setting-up-gdal-with-filegdb/)
 
 
 

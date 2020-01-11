@@ -4,3 +4,8 @@ ve/
 .aws
 src/junk.py
 __pycache__/
+junk/
+junk.sh
+install_gdal_deps_tmp.sh
+FileGDB_API*
+

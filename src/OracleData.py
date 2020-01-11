@@ -163,33 +163,76 @@ class OraQuery:
         """
         self.oraConfig = oraConfig
 
-    def getTables(self, schema, skipOraSpatialTabs=True):
+    def getTables(self, schema, spatialTables=False):
         """Hits oracle and returns a list fo the tables in the schema
 
         :param schema: The oracle schema that you want the table list for.
         :type schema: str
+        :param spatialTables: if true only returns spatial tables.  If false
+                              only returns non spatial tables
         :return: a list of tables in the provided schema
         :rtype: list
         """
         conn = self.oraConfig.getConnection()
-        table_list_sql = f"select table_name from all_tables where owner = '{schema}'"
+        tableListSQL = f"select table_name from all_tables where owner = '{schema}'"
+        tableEvalSql = f"select * from {0}.{1}"
         cur = conn.cursor()
         cur.execute(table_list_sql)
         results = cur.fetchall()
         # puts the results in a list of tuples, want to convert to a simple
         # list
         tableList = []
-        oraSpatRe = re.compile("^MD[R|X]T_.*$", re.IGNORECASE)
+        # Skip the MDRT and MDXT tables
+        oraConfigTab = re.compile("^MD[R|X]T_.*$", re.IGNORECASE)
         for result in results:
-            if skipOraSpatialTabs:
-                if not oraSpatRe.match(result[0]):
-                    LOGGER.debug(f"table: {result[0]}")
+            tableQuery = conn.cursor()
+            tableQuery.execute(tableEvalSql.format(schema, result[0]))
+            # not an oracle spatial table MDRT MDXT table
+            if not oraConfigTab.match(result[0]):
+                # skip spatial data param, and doesn't have spatial data then include
+                hasSpatial = self.hasSpatialColumn(tableQuery)
+                if spatialTables and hasSpatial:
+                    LOGGER.debug(f"spatial table: {result[0]}")
                     tableList.append(result[0])
-            else:
-                tableList.append(result[0])
-                LOGGER.debug(f"table: {result[0]}")
+                elif not spatialTables and not hasSpatial:
+                    tableList.append(result[0])
+                    LOGGER.debug(f"non spatial table: {result[0]}")
         return tableList
 
+    def hasSpatialColumn(self, cursor):
+        """iterates through the cursor.Description and determines if any of the
+        colummns in the cursor have a spatial type
+
+        :param cursor: the input cx_Oracle cursor whose columns will be evaluted
+                      to determine if any of them contain a spatial type
+        :type cursor: cx_Oracle.cursor
+        :return: a boolean that indicates if a spatial column is present in the
+                underlying cursor
+        :rtype: boolean
+        """
+        retVal = False
+        for columnDefinition in cursor.description:
+            if self.isColumnSpatial(columnDefinition):
+                retVal = True
+                break
+        return retVal
+
+    def isColumnSpatial(self, columnDescription):
+        """ cx_Oracle cursor descriptions don't explicitly tell us that a column
+        is a spatial type.  This method will infer it based on the name of the
+        column and the type.
+
+        if type is OBJECT and the name is either GEOMETRY or SHAPE then will
+        assume its spatial.
+
+        :param columnDescription: a cx_oracle cursor.description object
+        :type columnDescription: cx_oracle.cursor.descriptions
+        """
+        retVal = False
+        if columnDescription[0].upper() in ['GEOMETRY', 'SHAPE'] and \
+           columnDescription[1] is cx_Oracle.OBJECT:
+            retVal = True
+        return retVal
 
 class OraConfigError(Exception):
     """Error/Exception used to indicate that a required env var is either
